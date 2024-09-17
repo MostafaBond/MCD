@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Coder/Decoder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><h1>Message Coder/Decoder<br> By Mustafa ElHassanin ©2024</h1>
+        <!-- Encoding and Decoding Instructions -->
+        <p>
+            <strong>Instructions:</strong><br>
+            To <strong>code</strong> a message, enter your message, generate a key - keep the keey because you need it to decode the message-, and click "Code Message".<br>
+            To <strong>decode</strong> a message, enter the coded message and key- it shown when you code the message-, and click "Decode Message".
+        </p>
+        <label for="message">Enter your message:</label>
+        <textarea id="message" rows="4"></textarea>
+
+        <input type="text" id="key">
+        <button onclick="generateKey()">Generate Key</button>
+
+        <label for="result">Result:</label>
+        <textarea id="result" rows="4" readonly></textarea>
+
+        <button onclick="codeMessage()">Code Message</button>
+        <button onclick="decodeMessage()">Decode Message</button>
+    </div>
+
+    <script src="Logic.js"></script>
+</body>
+</html>

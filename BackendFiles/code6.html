@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Coder/Decoder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        textarea, input, button {
+            width: 100%;
+            box-sizing: border-box;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        input, button {
+            background-color: #ccc;
+            border: 1px solid #999;
+        }
+
+        input[readonly] {
+            background-color: #eee;
+            font-weight: bold;
+            color: black;
+        }
+
+        textarea {
+            background-color: black;
+            color: #00ff00;
+            height: 150px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Message Coder/Decoder<br> By Mustafa ElHassanin</h1>
+        <!-- Encoding and Decoding Instructions -->
+        <p>
+            <strong>Instructions:</strong><br>
+            To <strong>code</strong> a message, enter your message, generate a key, and click "Code Message".<br>
+            To <strong>decode</strong> a message, enter the coded message and key, and click "Decode Message".
+        </p>
+        <label for="message">Enter your message:</label>
+        <textarea id="message" rows="4"></textarea>
+
+        <input type="text" id="key">
+        <button onclick="generateKey()">Generate Key</button>
+
+        <label for="result">Result:</label>
+        <textarea id="result" rows="4" readonly></textarea>
+
+        <button onclick="codeMessage()">Code Message</button>
+        <button onclick="decodeMessage()">Decode Message</button>
+    </div>
+
+    <script>
+        function generateKey() {
+            const maxKey = 99999999; // Maximum 8-digit number
+            const generatedKey = Math.floor(Math.random() * maxKey);
+            document.getElementById('key').value = generatedKey;
+        }
+
+        function codeMessage() {
+            const message = document.getElementById('message').value;
+            const key = document.getElementById('key').value;
+
+            if (message.trim() === '' || key.trim() === '') {
+                alert('Please enter both message and key.');
+                return;
+            }
+
+            let codedMessage = vigenereCipher(message, key);
+            codedMessage = btoa(codedMessage); // Base64 encoding
+
+            document.getElementById('result').value = codedMessage;
+        }
+
+        function decodeMessage() {
+            const message = document.getElementById('message').value;
+            const key = document.getElementById('key').value;
+
+            if (message.trim() === '' || key.trim() === '') {
+                alert('Please enter both coded message and key.');
+                return;
+            }
+
+            let decodedMessage = vigenereDecipher(atob(message), key); // Base64 decoding and Vigenere decipher
+
+            document.getElementById('result').value = decodedMessage;
+        }
+
+        function vigenereCipher(message, key) {
+            let result = '';
+            for (let i = 0; i < message.length; i++) {
+                const charCode = (message.charCodeAt(i) + key.charCodeAt(i % key.length)) % 256;
+                result += String.fromCharCode(charCode);
+            }
+            return result;
+        }
+
+        function vigenereDecipher(codedMessage, key) {
+            let result = '';
+            for (let i = 0; i < codedMessage.length; i++) {
+                const charCode = (codedMessage.charCodeAt(i) - key.charCodeAt(i % key.length) + 256) % 256;
+                result += String.fromCharCode(charCode);
+            }
+            return result;
+        }
+
+        // Generate a key on page load
+        window.onload = function () {
+            generateKey();
+        };
+    </script>
+</body>
+</html>
